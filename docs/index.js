@@ -35,11 +35,21 @@ function canvasUpdate(url) {
   var canvas = document.getElementById("my_canvas_id");
   var ctx = canvas.getContext("2d", 0, 0, canvas.width, canvas.height);
   var img = new Image();
+  img.crossOrigin = "anonymous";
   img.onload = function () {
     canvas.width = img.width;
     canvas.height = img.height;
     ctx.drawImage(img, 0, 0, img.width, img.height); // Or at whatever offset you like
+
+    const colors = canvas
+      .getContext("2d")
+      .getImageData(window.innerWidth / 2, 0, 1, 1).data;
+    console.log(colors);
+
+    updateTheme(colors[0], colors[1], colors[2]);
   };
+
+  img.onload;
   img.src = url;
 }
 
@@ -57,7 +67,7 @@ const bodyEl = document.querySelector("body");
 
 let wheelIndex = 1;
 bodyEl.onwheel = function (event) {
-  event.preventDefault();
+  // event.preventDefault();
   wheelIndex += event.deltaY > 1 ? 1 : -1;
   // Restrict scale
   wheelIndex = Math.min(Math.max(0, wheelIndex), IMAGES.length);
@@ -108,4 +118,12 @@ if ("ontouchstart" in window) {
 
 function scaleToPercent(scale) {
   return (scale / window.innerHeight) * 100;
+}
+
+function updateTheme(r, g, b) {
+  var metaThemeColor = document.querySelector("meta[name=theme-color]");
+  metaThemeColor.setAttribute(
+    "content",
+    ((r << 16) | (g << 8) | b).toString(16)
+  );
 }

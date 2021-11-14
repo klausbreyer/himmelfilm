@@ -1,0 +1,8 @@
+authtoken:
+region: eu
+
+tunnels:
+    default:
+        proto: http
+        addr: 8080
+        hostname: schlachthof-wolken.eu.ngrok.io

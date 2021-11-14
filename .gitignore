@@ -1,0 +1,5 @@
+.DS_Store
+images/*
+!images/image.jpg
+ngrok-config.yml
+docs/scrabook.js

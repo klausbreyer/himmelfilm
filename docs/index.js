@@ -21,7 +21,7 @@ function extratHrefs(html) {
 function updateCycle(index) {
   const image = IMAGES[index];
   document.querySelector("div").innerText = index;
-  // document.querySelector("span").innerText = image;
+  document.querySelector("span").innerText = image;
 
   const url = API + image;
   canvasUpdate(url);

@@ -19,20 +19,30 @@ function extratHrefs(html) {
 }
 
 function updateCycle(index) {
-  const image = IMAGES[index];
-  document.querySelector("div").innerText = index;
-  document.querySelector("span").innerText = image;
-
-  const url = API + image;
-  canvasUpdate(url);
+  canvasUpdate(index);
 }
 
 function setBackground(url) {
   document.body.style.backgroundImage = `url('${url}')`;
 }
 
-function canvasUpdate(url) {
-  var canvas = document.getElementById("my_canvas_id");
+let BLOCKED = false;
+function canvasUpdate(index) {
+  const image = IMAGES[index];
+
+  const url = API + image;
+  shadowCanvasUpdate(url);
+  if (BLOCKED) {
+    return;
+  }
+  BLOCKED = true;
+  mainCanvasUpdate(url);
+  document.querySelector("div").innerText = index;
+  document.querySelector("span").innerText = image;
+}
+
+function mainCanvasUpdate(url) {
+  var canvas = document.getElementById("main_canvas");
   var ctx = canvas.getContext("2d", 0, 0, canvas.width, canvas.height);
   var img = new Image();
   img.crossOrigin = "anonymous";
@@ -44,9 +54,24 @@ function canvasUpdate(url) {
     const colors = canvas
       .getContext("2d")
       .getImageData(window.innerWidth / 2, 0, 1, 1).data;
-    console.log(colors);
 
     updateTheme(colors[0], colors[1], colors[2]);
+    BLOCKED = false;
+  };
+
+  img.onload;
+  img.src = url;
+}
+
+function shadowCanvasUpdate(url) {
+  var canvas = document.getElementById("shadow_canvas");
+  var ctx = canvas.getContext("2d", 0, 0, canvas.width, canvas.height);
+  var img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = function () {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0, img.width, img.height); // Or at whatever offset you like
   };
 
   img.onload;
@@ -85,6 +110,9 @@ if ("ontouchstart" in window) {
   });
 
   bodyEl.addEventListener("touchmove", function (e) {
+    // if (BLOCKED) {
+    //   return;
+    // }
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     var touch = evt.touches[0] || evt.changedTouches[0];
 

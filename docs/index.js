@@ -1,7 +1,25 @@
 const API = "https://schlachthof-wolken.eu.ngrok.io/images/";
+// const API = "https://files.v01.io/schlachthof-wolken/";
 // const API = "http://10.0.0.3:8080/images/";
 
 let IMAGES = [];
+
+const PRELOADING_FORWARD = 500;
+let preloadedIndex = 0;
+
+function dynamicPreloader(startIndex) {
+  const preloadLimit = startIndex + PRELOADING_FORWARD;
+
+  document.querySelector(
+    "span"
+  ).innerText = `preloading ${startIndex} ${preloadedIndex} -> ${preloadLimit}`;
+
+  for (preloadedIndex; preloadedIndex < preloadLimit; preloadedIndex++) {
+    const image = IMAGES[preloadedIndex];
+    const url = API + image;
+    shadowCanvasUpdate(url);
+  }
+}
 
 async function getHtml() {
   const response = await fetch(API);
@@ -22,23 +40,13 @@ function updateCycle(index) {
   canvasUpdate(index);
 }
 
-function setBackground(url) {
-  document.body.style.backgroundImage = `url('${url}')`;
-}
-
-let BLOCKED = false;
 function canvasUpdate(index) {
   const image = IMAGES[index];
-
   const url = API + image;
-  shadowCanvasUpdate(url);
-  if (BLOCKED) {
-    return;
-  }
-  BLOCKED = true;
+
   mainCanvasUpdate(url);
   document.querySelector("div").innerText = index;
-  document.querySelector("span").innerText = image;
+  // document.querySelector("span").innerText = image;
 }
 
 function mainCanvasUpdate(url) {
@@ -56,7 +64,6 @@ function mainCanvasUpdate(url) {
       .getImageData(window.innerWidth / 2, 0, 1, 1).data;
 
     updateTheme(colors[0], colors[1], colors[2]);
-    BLOCKED = false;
   };
 
   img.onload;
@@ -83,8 +90,9 @@ async function main() {
   const html = await getHtml();
   IMAGES = extratHrefs(html);
   console.dir(IMAGES);
-
   updateCycle(0);
+
+  dynamicPreloader(0);
 }
 main();
 
@@ -97,6 +105,8 @@ bodyEl.onwheel = function (event) {
   // Restrict scale
   wheelIndex = Math.min(Math.max(0, wheelIndex), IMAGES.length);
   updateCycle(wheelIndex);
+
+  dynamicPreloader(wheelIndex);
 };
 
 let touchOffset = 0;
@@ -110,9 +120,6 @@ if ("ontouchstart" in window) {
   });
 
   bodyEl.addEventListener("touchmove", function (e) {
-    // if (BLOCKED) {
-    //   return;
-    // }
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     var touch = evt.touches[0] || evt.changedTouches[0];
 
@@ -137,10 +144,13 @@ if ("ontouchstart" in window) {
     const touchMove = touch.pageY;
     const touchDelta = touchMove - touchStart;
 
-    touchOffset = Math.min(
+    const touchIndex = Math.min(
       Math.max(0, touchDelta + touchOffset),
       IMAGES.length
     );
+
+    touchOffset = touchIndex;
+    dynamicPreloader(touchIndex);
   });
 }
 

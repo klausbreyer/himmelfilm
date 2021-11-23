@@ -1,14 +1,15 @@
-const API = "https://schlachthof-wolken.eu.ngrok.io/images/";
-// const API = "https://files.v01.io/schlachthof-wolken/";
+// const API = "https://schlachthof-wolken.eu.ngrok.io/images/";
+const API = "https://files.v01.io/schlachthof-wolken/";
 // const API = "http://10.0.0.3:8080/images/";
+const TOUCH_FACTOR = 0.5;
 
 let IMAGES = [];
 
-const PRELOADING_FORWARD = 500;
+const PRELOADING_BUFFER = 250;
 let preloadedIndex = 0;
 
 function dynamicPreloader(startIndex) {
-  const preloadLimit = startIndex + PRELOADING_FORWARD;
+  const preloadLimit = startIndex + 2 * PRELOADING_BUFFER;
 
   document.querySelector(
     "span"
@@ -111,6 +112,21 @@ bodyEl.onwheel = function (event) {
 
 let touchOffset = 0;
 let touchStart = 0;
+function calculateTouchIndex(pageY) {
+  const touchMove = pageY;
+  const touchDelta = touchMove - touchStart;
+
+  const yPixelPosition = Math.max(0, touchDelta + touchOffset);
+  // for smoother scrolling, we have a scrolling factor.
+  const weightedPosition = Math.round(yPixelPosition * TOUCH_FACTOR);
+
+  const touchIndex = Math.min(
+    weightedPosition,
+    preloadedIndex - PRELOADING_BUFFER
+    // preloaded are 2* preloading buffer. but accesible are only the first part.
+  );
+  return touchIndex;
+}
 if ("ontouchstart" in window) {
   bodyEl.addEventListener("touchstart", function (e) {
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
@@ -123,13 +139,7 @@ if ("ontouchstart" in window) {
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     var touch = evt.touches[0] || evt.changedTouches[0];
 
-    const touchMove = touch.pageY;
-    const touchDelta = touchMove - touchStart;
-
-    const touchIndex = Math.min(
-      Math.max(0, touchDelta + touchOffset),
-      IMAGES.length
-    );
+    const touchIndex = calculateTouchIndex(touch.pageY);
     updateCycle(touchIndex);
 
     // document.querySelector(
@@ -141,16 +151,14 @@ if ("ontouchstart" in window) {
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     var touch = evt.touches[0] || evt.changedTouches[0];
 
+    const touchIndex = calculateTouchIndex(touch.pageY);
+    dynamicPreloader(touchIndex);
+
     const touchMove = touch.pageY;
     const touchDelta = touchMove - touchStart;
+    const yPixelPosition = Math.max(0, touchDelta + touchOffset);
 
-    const touchIndex = Math.min(
-      Math.max(0, touchDelta + touchOffset),
-      IMAGES.length
-    );
-
-    touchOffset = touchIndex;
-    dynamicPreloader(touchIndex);
+    touchOffset = yPixelPosition;
   });
 }
 

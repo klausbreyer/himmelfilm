@@ -20,3 +20,6 @@ image-shot:
 start:
 	ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
 	php -S 0.0.0.0:8000 -t docs/
+
+south:
+	cd southdakota && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.4:schlachthof-wolken-southdakota/

@@ -11,6 +11,7 @@ deploy:
 	cd ngrok && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-ngrok/
 	cd fswebcam && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-fswebcam/
 	cd apache && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-apache/
+	cd rsync && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-rsync/
 
 # on remote host to make a picture
 image-shot:

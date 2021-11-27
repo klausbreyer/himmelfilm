@@ -6,6 +6,8 @@ How to run ngrok as systemd service: https://stackoverflow.com/a/50808709
 
 root@northdakota:/etc/systemd/system# ln -s /home/pi/fswebcam/ngrok.service ngrok.service
 
+systemctl start ngrok.service
+
 ## Apache
 
 @todo: add apache config here to repo.

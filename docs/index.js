@@ -47,7 +47,7 @@ function canvasUpdate(index) {
   const url = API + image;
 
   mainCanvasUpdate(url);
-  document.querySelector("div").innerText = index;
+  document.querySelector("div").innerText = `${image}: ${index}`;
   // document.querySelector("span").innerText = image;
 }
 

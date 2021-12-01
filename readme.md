@@ -20,3 +20,5 @@ sudo a2enmod headers
 Header add Access-Control-Allow-Origin "\*"
 Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
 Header add Access-Control-Allow-Methods "GET, OPTIONS"
+
+## pi zero wifi config: https://core-electronics.com.au/tutorials/raspberry-pi-zerow-headless-wifi-setup.html

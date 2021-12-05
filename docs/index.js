@@ -1,5 +1,5 @@
 // const API = "https://schlachthof-wolken.eu.ngrok.io/images/";
-const API = "https://files.v01.io/schlachthof-wolken-southdakota/1,2/";
+const API = "https://files.v01.io/schlachthof-wolken-southdakota/0,8/";
 // const API = "https://files.v01.io/schlachthof-wolken/";
 // const API = "http://10.0.0.3:8080/images/";
 const TOUCH_FACTOR = 1;

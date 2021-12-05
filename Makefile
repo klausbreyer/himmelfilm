@@ -7,7 +7,7 @@ image-backup:
 	rsync -av  pi@10.0.0.3:/media/usb/www/www.schlachthof-wolken.de/images/ images
 
 # on local host deploy everything, but do not mess with the pictures.
-deploy:
+southdakota:
 	cd ngrok && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-ngrok/
 	cd fswebcam && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-fswebcam/
 	cd apache && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-apache/
@@ -22,4 +22,4 @@ start:
 	php -S 0.0.0.0:8000 -t docs/
 
 nebraska:
-	cd allinone && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.5:schlachthof-wolken-allinone/
+	cd allinone && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.5:schlachthof-wolken-allinone/ --delete

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mydomain="schlachthof-wolken.de"
-myhostname="nebraska"
+myhostname="www"
 gdapikey="$GODADDY_API_KEY:$GODADDY_API_SECRET"
 logdest="local7.info"
 

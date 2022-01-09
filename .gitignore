@@ -3,3 +3,4 @@ images/*
 !images/image.jpg
 ngrok-config.yml
 docs/scrabook.js
+ui/scrabook.js

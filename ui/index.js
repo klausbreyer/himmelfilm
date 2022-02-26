@@ -4,7 +4,7 @@ const TOUCH_FACTOR = 1;
 
 let IMAGES = [];
 
-const PRELOADING_BUFFER = 250;
+const PRELOADING_BUFFER = 50;
 let preloadedIndex = 0;
 
 function dynamicPreloader(startIndex) {
@@ -92,7 +92,9 @@ async function main() {
   console.dir(IMAGES);
   updateCycle(0);
 
-  dynamicPreloader(0);
+  setTimeout(() => {
+    dynamicPreloader(0);
+  }, 1000);
 }
 main();
 

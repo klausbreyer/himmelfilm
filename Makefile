@@ -4,14 +4,14 @@
 
 # on local host to transfer the here edited config.
 image-backup:
-	rsync -av  pi@10.0.0.3:/media/usb/www/www.schlachthof-wolken.de/images/ images
+	rsync -avz  pi@10.0.0.5:~/www.schlachthof-wolken.de images
 
 # on local host deploy everything, but do not mess with the pictures.
 southdakota:
-	cd ngrok && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-ngrok/
-	cd fswebcam && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-fswebcam/
-	cd apache && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-apache/
-	cd rsync && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-rsync/
+	cd ngrok && rsync -avz --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-ngrok/
+	cd fswebcam && rsync -avz --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-fswebcam/
+	cd apache && rsync -avz --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-apache/
+	cd rsync && rsync -avz --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.3:schlachthof-wolken-rsync/
 
 # on remote host to make a picture
 image-shot:
@@ -21,7 +21,7 @@ start:
 	ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
 	php -S 0.0.0.0:8000 -t ui/
 
-nebraska:
+deploy:
 	cd allinone && rsync -av --exclude='.git/' --exclude='.DS_Store' . pi@10.0.0.5:schlachthof-wolken-allinone/ --delete
 	scp ui/index.html pi@10.0.0.5:www.schlachthof-wolken.de
 	scp ui/styles.css pi@10.0.0.5:www.schlachthof-wolken.de

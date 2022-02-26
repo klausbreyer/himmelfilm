@@ -16,20 +16,6 @@ body {
   touch-action: none;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-div {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: white;
-  z-index: 999999;
-}
-span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: white;
-  z-index: 999999;
-}
 
 canvas {
   position: absolute;
@@ -44,8 +30,30 @@ canvas#main_Canvas {
   z-index: 1;
 }
 
-canvas#shadow_canvas {
-  z-index: 2;
-  height: 10vh;
-  width: 10vw;
+button {
+  opacity: 0.3;
+  position: absolute;
+  font-size: 30px;
+  z-index: 3;
+}
+
+button#info {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  max-width: 500px;
+}
+
+button#random {
+  left: 0;
+  bottom: 0;
+  width: 50vw;
+  max-width: 250px;
+}
+
+button#now {
+  right: 0;
+  bottom: 0;
+  width: 50vw;
+  max-width: 250px;
 }

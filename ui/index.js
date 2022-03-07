@@ -42,6 +42,9 @@ function updateCycle(override) {
   }
 
   const image = IMAGES[INDEX];
+  if (!image) {
+    return false;
+  }
   const url = API + image;
   console.log(INDEX, url);
 
@@ -105,7 +108,7 @@ async function main() {
   IMAGES = extratHrefs(html);
   console.dir(IMAGES);
 
-  updateCycle(IMAGES.length - 60);
+  updateCycle(IMAGES.length - 1);
 }
 
 main();

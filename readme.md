@@ -1,24 +1,10 @@
-How to webcams on raspi: https://www.raspberrypi.org/documentation/usage/webcams/
+# himmelfilm
 
-## ngrok as system service
+Open Source project that enables an raspbery pi to capture an image of the sky above berlin, host the pictures on the raspbery pi, and provide the super basic interface, that you can see under: https://www.himmelfilm.de
 
-How to run ngrok as systemd service: https://stackoverflow.com/a/50808709
 
-root@northdakota:/etc/systemd/system# ln -s /home/pi/fswebcam/ngrok.service ngrok.service
+## Example
+![Example](https://www.himmelfilm.de/0,8/2022-03-25-18-05-01.jpg "Example")
 
-systemctl start ngrok.service
-
-## Apache
-
-@todo: add apache config here to repo.
-Cors Headers.
-
-```
-sudo a2enmod headers
-```
-
-Header add Access-Control-Allow-Origin "\*"
-Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
-Header add Access-Control-Allow-Methods "GET, OPTIONS"
-
-## pi zero wifi config: https://core-electronics.com.au/tutorials/raspberry-pi-zerow-headless-wifi-setup.html
+## Origin
+My 5 year old son came up with this super descriptive name for this project I fiddle around for over a year.

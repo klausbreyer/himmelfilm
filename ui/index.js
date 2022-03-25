@@ -1,4 +1,4 @@
-const API = "https://www.schlachthof-wolken.de/1,2/";
+const API = "https://www.himmelfilm.de/0,8/";
 
 let IMAGES = [];
 let INDEX = 0;
@@ -55,10 +55,10 @@ function updateCycle(override) {
 
 function mainCanvasUpdate(url) {
   var canvas = document.getElementById("main_canvas");
-  var ctx = canvas.getContext("2d", 0, 0, canvas.width, canvas.height);
   var img = new Image();
   img.crossOrigin = "anonymous";
   img.onload = function () {
+    var ctx = canvas.getContext("2d", 0, 0, canvas.width, canvas.height);
     canvas.width = img.width;
     canvas.height = img.height;
     ctx.drawImage(img, 0, 0, img.width, img.height); // Or at whatever offset you like
@@ -70,8 +70,7 @@ function mainCanvasUpdate(url) {
     updateTheme(colors[0], colors[1], colors[2]);
 
     //@todo: updateFavicon
-
-    updateCycle();
+    setTimeout(() => updateCycle(), 20);
   };
 
   img.onload;
